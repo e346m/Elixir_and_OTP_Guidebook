@@ -1,0 +1,24 @@
+digraph {
+  graph [ranksep=0.3]
+  node [shape=box,width=7,fontname=Monospace]
+  init [label="Initial"];
+  subgraph {
+    "#Ref<0.488940319.1551630337.195394>" [label="        1: P: P.1 = erlang:spawn(erlang, apply, [...])\l"];
+    "init" -> "#Ref<0.488940319.1551630337.195394>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195439>" [label="        2: P: Exception badarg raised by: erlang:send('Elixir.SpawnReg', stop)\l",color=orange,penwidth=5];
+    "#Ref<0.488940319.1551630337.195394>" -> "#Ref<0.488940319.1551630337.195439>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195443>" [label="        3: P: exits abnormally ({...})\l",color=red,penwidth=5];
+    "#Ref<0.488940319.1551630337.195439>" -> "#Ref<0.488940319.1551630337.195443>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195447>" [label="        4: P.1: undefined = erlang:whereis('Elixir.SpawnReg')\l"];
+    "#Ref<0.488940319.1551630337.195443>" -> "#Ref<0.488940319.1551630337.195447>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195452>" [label="        5: P.1: P.1.1 = erlang:spawn(erlang, apply, [...])\l"];
+    "#Ref<0.488940319.1551630337.195447>" -> "#Ref<0.488940319.1551630337.195452>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195457>" [label="        6: P.1: true = erlang:register('Elixir.SpawnReg', P.1.1)\l"];
+    "#Ref<0.488940319.1551630337.195452>" -> "#Ref<0.488940319.1551630337.195457>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195461>" [label="        7: P.1: exits normally\l",color=limegreen,penwidth=5];
+    "#Ref<0.488940319.1551630337.195457>" -> "#Ref<0.488940319.1551630337.195461>"[weight=1000];
+    "#Ref<0.488940319.1551630337.195439>":e -> "#Ref<0.488940319.1551630337.195457>":e[constraint=false, color=red, dir=back, penwidth=3, style=dashed];
+    "#Ref<0.488940319.1551630337.195497>" [label="1: Error ([P.1.1] blocked)",style=filled,fillcolor=red];
+    "#Ref<0.488940319.1551630337.195461>" -> "#Ref<0.488940319.1551630337.195497>"[weight=1000];
+  }
+}

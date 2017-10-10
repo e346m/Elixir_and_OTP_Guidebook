@@ -1,0 +1,93 @@
+Concuerror v0.17-dev (db340f4) started at 10 Oct 2017 11:06:03
+ Options:
+  [{after_timeout,infinity},
+   {assertions_only,false},
+   {assume_racing,true},
+   {depth_bound,500},
+   {disable_sleep_sets,false},
+   {dpor,optimal},
+   {entry_point,{'Elixir.SpawnReg.ConcurrencyTest',test,[]}},
+   {exclude_module,[]},
+   {ignore_error,[]},
+   {instant_delivery,true},
+   {interleaving_bound,infinity},
+   {keep_going,false},
+   {non_racing_system,[]},
+   {pa,"./_build/test/lib/concuerror_playground/ebin/"},
+   {print_depth,20},
+   {scheduling,round_robin},
+   {scheduling_bound_type,none},
+   {show_races,true},
+   {strict_scheduling,false},
+   {symbolic_names,true},
+   {timeout,1000},
+   {treat_as_normal,[]},
+   {use_receive_patterns,false}]
+################################################################################
+Interleaving #1
+--------------------------------------------------------------------------------
+Errors found:
+* At step 3 process P exited abnormally
+    Reason:
+      {badarg,[{erlang,send,
+                       ['Elixir.SpawnReg',stop],
+                       [5,
+                        {file,"/Users/eiji/Coding/Elixir/Elixir_and_OTP_Guidebook/chapter_11/concuerror_playground/lib/spawn_reg_test.ex"}]}]}
+    Stacktrace:
+      [{erlang,send,
+               ['Elixir.SpawnReg',stop],
+               [5,
+                {file,"/Users/eiji/Coding/Elixir/Elixir_and_OTP_Guidebook/chapter_11/concuerror_playground/lib/spawn_reg_test.ex"}]}]
+* Blocked at a 'receive' ("deadlocked"; other processes have exited):
+    P.1.1 in spawn_reg.ex line 14
+--------------------------------------------------------------------------------
+Event trace:
+   1: P: P.1 = erlang:spawn(erlang, apply, [#Fun<'Elixir.SpawnReg.ConcurrencyTest'.'-test/0-fun-0-'.0>,[]])
+    in erlang.erl line 2673
+   2: P: Exception badarg raised by: erlang:send('Elixir.SpawnReg', stop)
+    in spawn_reg_test.ex line 5
+   3: P: exits abnormally ({badarg,[{erlang,send,['Elixir.SpawnReg',stop],[5,{file,[47,85,115,101,114,115,47,101|...]}]}]})
+   4: P.1: undefined = erlang:whereis('Elixir.SpawnReg')
+    in process.ex line 531
+   5: P.1: P.1.1 = erlang:spawn(erlang, apply, [#Fun<'Elixir.SpawnReg'.'-start/0-fun-0-'.0>,[]])
+    in erlang.erl line 2673
+   6: P.1: true = erlang:register('Elixir.SpawnReg', P.1.1)
+    in process.ex line 496
+   7: P.1: exits normally
+--------------------------------------------------------------------------------
+New races found:
+*    2: P: Exception badarg raised by: erlang:send('Elixir.SpawnReg', stop)
+     6: P.1: true = erlang:register('Elixir.SpawnReg', P.1.1)
+
+
+################################################################################
+Exploration completed!
+################################################################################
+Errors:
+--------------------------------------------------------------------------------
+Stop testing on first error. (Check '-h keep_going').
+
+################################################################################
+Warnings:
+--------------------------------------------------------------------------------
+Multiple instances of '--pa' defined. Using last value: "./_build/test/lib/concuerror_playground/ebin/".
+Multiple instances of '--pa' defined. Using last value: "./_build/test/lib/concuerror_playground/ebin/".
+
+################################################################################
+Tips:
+--------------------------------------------------------------------------------
+Increase '--print_depth' if output/graph contains "...".
+
+################################################################################
+Info:
+--------------------------------------------------------------------------------
+Automatically instrumented module io_lib
+Automatically instrumented module gen_server
+Automatically instrumented module 'Elixir.SpawnReg.ConcurrencyTest'
+Automatically instrumented module erlang
+Automatically instrumented module 'Elixir.SpawnReg'
+Automatically instrumented module 'Elixir.Process'
+
+################################################################################
+Done at 10 Oct 2017 11:06:04 (Exit status: error)
+  Summary: 1 errors, 1/2 interleavings explored

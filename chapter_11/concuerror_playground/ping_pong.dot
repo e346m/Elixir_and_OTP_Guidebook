@@ -1,0 +1,21 @@
+digraph {
+  graph [ranksep=0.3]
+  node [shape=box,width=7,fontname=Monospace]
+  init [label="Initial"];
+  subgraph {
+    "#Ref<0.3105316377.3270508545.60930>" [label="        1: P: P.1 = erlang:spawn(erlang, apply, [...])\l"];
+    "init" -> "#Ref<0.3105316377.3270508545.60930>"[weight=1000];
+    "#Ref<0.3105316377.3270508545.60952>" [label="        2: P: P.2 = erlang:spawn(erlang, apply, [...])\l"];
+    "#Ref<0.3105316377.3270508545.60930>" -> "#Ref<0.3105316377.3270508545.60952>"[weight=1000];
+    "#Ref<0.3105316377.3270508545.60956>" [label="        3: P: exits normally\l",color=limegreen,penwidth=5];
+    "#Ref<0.3105316377.3270508545.60952>" -> "#Ref<0.3105316377.3270508545.60956>"[weight=1000];
+    "#Ref<0.3105316377.3270508545.60960>" [label="        4: P.2: pong = erlang:send(P.1, pong)\l"];
+    "#Ref<0.3105316377.3270508545.60956>" -> "#Ref<0.3105316377.3270508545.60960>"[weight=1000];
+    "#Ref<0.3105316377.3270508545.60962>" [label="        5: P.1: receives message (pong)\l"];
+    "#Ref<0.3105316377.3270508545.60960>" -> "#Ref<0.3105316377.3270508545.60962>"[weight=1000];
+    "#Ref<0.3105316377.3270508545.60967>" [label="        6: P.1: exits normally\l",color=limegreen,penwidth=5];
+    "#Ref<0.3105316377.3270508545.60962>" -> "#Ref<0.3105316377.3270508545.60967>"[weight=1000];
+    "#Ref<0.3105316377.3270508545.60999>" [label="1: Error ([P.2] blocked)",style=filled,fillcolor=red];
+    "#Ref<0.3105316377.3270508545.60967>" -> "#Ref<0.3105316377.3270508545.60999>"[weight=1000];
+  }
+}

@@ -1,0 +1,31 @@
+defmodule ListsEQC do
+  use ExUnit.Case
+  use EQC.ExUnit
+
+  property "reversing a list twice yields the original list" do
+    forall l <- list(int) do
+      ensure l |> Enum.reverse |> Enum.reverse == l
+    end
+  end
+  property "appending an element and sorting it is the same as prepending an element and sotring it" do
+    forall {i, l} <- {int, list(int)} do
+      [i|l] |> Enum.sort == l ++ [i] |> Enum.sort
+    end
+  end
+  property "calling Enum.uniq/1 twice has no effect" do
+    forall l <- list(int) do
+      ensure l |> Enum.uniq == l |> Enum.uniq |> Enum.uniq
+    end
+  end
+  property "tail of list" do
+    forall l <- non_empty(list(int)) do
+      [_head|tail] = l
+      ensure tl(l) == tail
+    end
+  end
+  property "list concatenation" do
+    forall {l1, l2} <- {list(int), list(int)} do
+      ensure Enum.concat(l1, l2) == l1 ++ l2
+    end
+  end
+end
