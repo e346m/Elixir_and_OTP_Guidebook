@@ -1,15 +1,20 @@
 defmodule Pooly.WorkerSupervisor do
   use Supervisor
-  import Supervisor.Spec # will be deplicated
   # API #
+  # Supervisor.start_link and init end up calling child spec to set all child options
   def start_link({_, _, _} = mfa) do
     Supervisor.start_link(__MODULE__, mfa)
   end
   # Callbacks #
-  def init({m, f, a} = x) do
-    worker_opts = [restart: :temporary, function: f]
-    children = [worker(m, a, worker_opts)]
-    opts = [strategy: :simple_one_for_one, max_restart: 0, max_seconds: 5]
-    supervise(children, opts)
+  def init({m, f, a}) do
+    children = [
+      {m, [f, a]}
+    ]
+    opts = [
+      strategy: :simple_one_for_one,
+      max_restarts: 5,
+      max_seconds: 5
+    ]
+    Supervisor.init(children, opts)
   end
 end
