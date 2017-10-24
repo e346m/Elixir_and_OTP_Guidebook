@@ -1,17 +1,14 @@
 defmodule Pooly.Supervisor do
   use Supervisor
-  import Supervisor.Spec
   def start_link(pools_config) do
     Supervisor.start_link(__MODULE__, pools_config, name: __MODULE__)
   end
-
   def init(pools_config) do
     children = [
-      supervisor(Pooly.PoolsSupervisor, []),
-      worker(Pooly.Server,  [pools_config])
+      Pooly.PoolsSupervisor,
+      {Pooly.Server, [pools_config]}
     ]
-
     opts = [strategy: :one_for_all]
-    supervise(children, opts)
+    Supervisor.init(children, opts)
   end
 end
