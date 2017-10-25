@@ -1,7 +1,7 @@
 defmodule Pooly.PoolsSupervisor do
   use Supervisor
   def child_spec(_args) do
-    %{id: __MODUEL__, start: {__MODULE__, :start_link, []}, type: :supervisor, restart: :permanent}
+    %{id: __MODULE__, start: {__MODULE__, :start_link, []}, type: :supervisor, restart: :permanent}
   end
 
   def start_link do
