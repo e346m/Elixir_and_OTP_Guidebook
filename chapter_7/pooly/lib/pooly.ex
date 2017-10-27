@@ -1,4 +1,5 @@
 defmodule Pooly do
+  @timeout 5000
   use Application
   def start(_type, _args) do
     pool_config = [
@@ -12,8 +13,8 @@ defmodule Pooly do
   def start_pools(pool_config) do
     Pooly.Supervisor.start_link(pool_config)
   end
-  def checkout(pool_name) do
-    Pooly.Server.checkout(pool_name)
+  def checkout(pool_name, block \\ true,  timeout \\ @timeout) do
+    Pooly.Server.checkout(pool_name, block, timeout)
   end
   def checkin(pool_name, worker_pid) do
     Pooly.Server.checkin(pool_name, worker_pid)
